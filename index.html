@@ -1,178 +1,79 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>17x7 LED Matrix Simulator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-button {
-    height: 25px;
-    width: 25px;
-	background-color: #0000000f;
-    border-radius: 50%;
-    display: inline-block;
-	border-style:none;
-}
-button:focus {outline:0;}
-.lit {
-background-color: #ff0000;
-}
-</style>
-</head>
-<body>
+	<head>
+		<title>
+			LED Matrix Simulator
+		</title>
+		<meta content="width=device-width, initial-scale=1" name="viewport">
+		<style>
+		      body {
+		      background-color: #2c3e50;
+		      color: white;
+		      }
+		      button {
+		        height: 25px;
+		        width: 25px;
+		        background-color: white;
+		        border-radius: 50%;
+		        display: inline-block;
+		        border-style:none;
+		        margin: 2px;
+		      }
+		      button:focus {outline:0;}
+		      .lit {
+		      background-color: #ff0000;
+		      }
+		      a:visited {
+		          color: green;
+		      }
+		      a:link {
+		          color: red;
+		      }
+		</style>
+	</head>
+	<body>
+		<div style="text-align:center">
+			<h3>
+				LED Matrix Simulator
+			</h3>Click on the dots to light them - Used to simulate a <a href="https://shop.pimoroni.com/products/scroll-phat-hd" target="_blank">Scroll pHAT HD</a> - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a><br>
+			<form>
+				Width: <input id="width" name="w" size="5" type="text" value=""> Height: <input id="height" name="h" size="5" type="text" value=""> <input type="submit" value="Submit">
+			</form><br>
+			<br>
+			<div id="grid"></div>
+		</div>
+		<script>
+		      var url_string = window.location.href; //window.location.href
+		      var url = new URL(url_string);
+		      var MWidth = url.searchParams.get("w");
+		      var MHeight = url.searchParams.get("h");
 
-<div style="text-align:center">
-  <h3>17x7 LED Matrix Simulator</h3>
-  Click on the dots to light them - Used to simulate a <a href="https://shop.pimoroni.com/products/scroll-phat-hd" target="_blank">Scroll pHAT HD</a> - 
-  <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a>
-  <br><br>
-  <!-- Row 1 -->
-<button id="1-1" onclick="Lit(this)"></button>
-<button id="1-2" onclick="Lit(this)"></button>
-<button id="1-3" onclick="Lit(this)"></button>
-	<button id="1-4" onclick="Lit(this)"></button>
-      <button id="1-5" onclick="Lit(this)"></button>
-        <button id="1-6" onclick="Lit(this)"></button>
-          <button id="1-7" onclick="Lit(this)"></button>
-            <button id="1-8" onclick="Lit(this)"></button>
-              <button id="1-9" onclick="Lit(this)"></button>
-                <button id="1-10" onclick="Lit(this)"></button>
-                  <button id="1-11" onclick="Lit(this)"></button>
-                    <button id="1-12" onclick="Lit(this)"></button>
-                      <button id="1-13" onclick="Lit(this)"></button>
-                        <button id="1-14" onclick="Lit(this)"></button>
-                          <button id="1-15" onclick="Lit(this)"></button>
-                            <button id="1-16" onclick="Lit(this)"></button>
-                              <button id="1-17" onclick="Lit(this)"></button>
-                                <br>
-								
-	<!-- Row 2 -->													
-<button id="2-1" onclick="Lit(this)"></button>
-<button id="2-2" onclick="Lit(this)"></button>
-<button id="2-3" onclick="Lit(this)"></button>
-	<button id="2-4" onclick="Lit(this)"></button>
-      <button id="2-5" onclick="Lit(this)"></button>
-        <button id="2-6" onclick="Lit(this)"></button>
-          <button id="2-7" onclick="Lit(this)"></button>
-            <button id="2-8" onclick="Lit(this)"></button>
-              <button id="2-9" onclick="Lit(this)"></button>
-                <button id="2-10" onclick="Lit(this)"></button>
-                  <button id="2-11" onclick="Lit(this)"></button>
-                    <button id="2-12" onclick="Lit(this)"></button>
-                      <button id="2-13" onclick="Lit(this)"></button>
-                        <button id="2-14" onclick="Lit(this)"></button>
-                          <button id="2-15" onclick="Lit(this)"></button>
-                            <button id="2-16" onclick="Lit(this)"></button>
-                              <button id="2-17" onclick="Lit(this)"></button>
-                                <br>
-								
-		<!-- Row 3 -->								
-<button id="3-1" onclick="Lit(this)"></button>
-<button id="3-2" onclick="Lit(this)"></button>
-<button id="3-3" onclick="Lit(this)"></button>
-	<button id="3-4" onclick="Lit(this)"></button>
-      <button id="3-5" onclick="Lit(this)"></button>
-        <button id="3-6" onclick="Lit(this)"></button>
-          <button id="3-7" onclick="Lit(this)"></button>
-            <button id="3-8" onclick="Lit(this)"></button>
-              <button id="3-9" onclick="Lit(this)"></button>
-                <button id="3-10" onclick="Lit(this)"></button>
-                  <button id="3-11" onclick="Lit(this)"></button>
-                    <button id="3-12" onclick="Lit(this)"></button>
-                      <button id="3-13" onclick="Lit(this)"></button>
-                        <button id="3-14" onclick="Lit(this)"></button>
-                          <button id="3-15" onclick="Lit(this)"></button>
-                            <button id="3-16" onclick="Lit(this)"></button>
-                              <button id="3-17" onclick="Lit(this)"></button>
-                                <br>
-								
-		<!-- Row 4 -->								
-<button id="4-1" onclick="Lit(this)"></button>
-<button id="4-2" onclick="Lit(this)"></button>
-<button id="4-3" onclick="Lit(this)"></button>
-	<button id="4-4" onclick="Lit(this)"></button>
-      <button id="4-5" onclick="Lit(this)"></button>
-        <button id="4-6" onclick="Lit(this)"></button>
-          <button id="4-7" onclick="Lit(this)"></button>
-            <button id="4-8" onclick="Lit(this)"></button>
-              <button id="4-9" onclick="Lit(this)"></button>
-                <button id="4-10" onclick="Lit(this)"></button>
-                  <button id="4-11" onclick="Lit(this)"></button>
-                    <button id="4-12" onclick="Lit(this)"></button>
-                      <button id="4-13" onclick="Lit(this)"></button>
-                        <button id="4-14" onclick="Lit(this)"></button>
-                          <button id="4-15" onclick="Lit(this)"></button>
-                            <button id="4-16" onclick="Lit(this)"></button>
-                              <button id="4-17" onclick="Lit(this)"></button>
-                                <br>
-								
-		<!-- Row 5 -->								
-<button id="5-1" onclick="Lit(this)"></button>
-<button id="5-2" onclick="Lit(this)"></button>
-<button id="5-3" onclick="Lit(this)"></button>
-	<button id="5-4" onclick="Lit(this)"></button>
-      <button id="5-5" onclick="Lit(this)"></button>
-        <button id="5-6" onclick="Lit(this)"></button>
-          <button id="5-7" onclick="Lit(this)"></button>
-            <button id="5-8" onclick="Lit(this)"></button>
-              <button id="5-9" onclick="Lit(this)"></button>
-                <button id="5-10" onclick="Lit(this)"></button>
-                  <button id="5-11" onclick="Lit(this)"></button>
-                    <button id="5-12" onclick="Lit(this)"></button>
-                      <button id="5-13" onclick="Lit(this)"></button>
-                        <button id="5-14" onclick="Lit(this)"></button>
-                          <button id="5-15" onclick="Lit(this)"></button>
-                            <button id="5-16" onclick="Lit(this)"></button>
-                              <button id="5-17" onclick="Lit(this)"></button>
-                                <br>
-								
-		<!-- Row 6 -->								
-<button id="6-1" onclick="Lit(this)"></button>
-<button id="6-2" onclick="Lit(this)"></button>
-<button id="6-3" onclick="Lit(this)"></button>
-	<button id="6-4" onclick="Lit(this)"></button>
-      <button id="6-5" onclick="Lit(this)"></button>
-        <button id="6-6" onclick="Lit(this)"></button>
-          <button id="6-7" onclick="Lit(this)"></button>
-            <button id="6-8" onclick="Lit(this)"></button>
-              <button id="6-9" onclick="Lit(this)"></button>
-                <button id="6-10" onclick="Lit(this)"></button>
-                  <button id="6-11" onclick="Lit(this)"></button>
-                    <button id="6-12" onclick="Lit(this)"></button>
-                      <button id="6-13" onclick="Lit(this)"></button>
-                        <button id="6-14" onclick="Lit(this)"></button>
-                          <button id="6-15" onclick="Lit(this)"></button>
-                            <button id="6-16" onclick="Lit(this)"></button>
-                              <button id="6-17" onclick="Lit(this)"></button>
-                                <br>
-								
-		<!-- Row 7 -->								
-<button id="7-1" onclick="Lit(this)"></button>
-<button id="7-2" onclick="Lit(this)"></button>
-<button id="7-3" onclick="Lit(this)"></button>
-	<button id="7-4" onclick="Lit(this)"></button>
-      <button id="7-5" onclick="Lit(this)"></button>
-        <button id="7-6" onclick="Lit(this)"></button>
-          <button id="7-7" onclick="Lit(this)"></button>
-            <button id="7-8" onclick="Lit(this)"></button>
-              <button id="7-9" onclick="Lit(this)"></button>
-                <button id="7-10" onclick="Lit(this)"></button>
-                  <button id="7-11" onclick="Lit(this)"></button>
-                    <button id="7-12" onclick="Lit(this)"></button>
-                      <button id="7-13" onclick="Lit(this)"></button>
-                        <button id="7-14" onclick="Lit(this)"></button>
-                          <button id="7-15" onclick="Lit(this)"></button>
-                            <button id="7-16" onclick="Lit(this)"></button>
-                              <button id="7-17" onclick="Lit(this)"></button>
-                                <br>
-                             
-</div>
+		      if (MWidth == null){
+		      var MWidth = 17
+		      }
 
-<script>
-function Lit(ele) {
-   var element = document.getElementById(ele.id);
-   element.classList.toggle("lit");
-//   console.log('area element id = ' + ele.id);
-}
-</script>
-</body>
-</html> 
+		      if (MHeight == null){
+		      var MHeight = 7
+		      }
+
+		      var MWidth = ++MWidth
+		      var MHeight = ++MHeight
+
+		      for(var i = 1; i < MHeight; i++) {
+		      for(var i2 = 1; i2 < MWidth; i2++) {
+		      var node = document.createElement("BUTTON");
+		      node.setAttribute("id", i + "-" + i2);
+		      node.setAttribute("onclick", "Lit(this)");
+		      document.getElementById("grid").appendChild(node);
+		      }
+		      var br = document.createElement("br");
+		      document.getElementById("grid").appendChild(br);
+		      }
+
+		      function Lit(ele) {
+		       var element = document.getElementById(ele.id);
+		       element.classList.toggle("lit");
+		      }
+		</script>
+	</body>
+</html>
