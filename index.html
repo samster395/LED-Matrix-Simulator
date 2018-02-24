@@ -39,41 +39,49 @@
 			<form>
 				Width: <input id="width" name="w" size="2" type="text" value=""> Height: <input id="height" name="h" size="2" type="text" value=""> <input type="submit" value="Submit">
 			</form><br>
-			<br>
+			<input type="button" onclick="Clear()" value="Clear"></input>
+			<br><br>
 			<div id="grid"></div>
 		</div>
 		<script>
-		      var url_string = window.location.href; //window.location.href
-		      var url = new URL(url_string);
-		      var MWidth = url.searchParams.get("w");
-		      var MHeight = url.searchParams.get("h");
+		    var url_string = window.location.href; //window.location.href
+		    var url = new URL(url_string);
+		    var MWidth = url.searchParams.get("w");
+		    var MHeight = url.searchParams.get("h");
 
-		      if (MWidth == null){
-		      var MWidth = 17
-		      }
+		    if (MWidth == null){
+		    var MWidth = 17
+		    }
 
-		      if (MHeight == null){
-		      var MHeight = 7
-		      }
+		    if (MHeight == null){
+		    var MHeight = 7
+		    }
 
-		      var MWidth = ++MWidth
-		      var MHeight = ++MHeight
+		    var MWidth = ++MWidth
+		    var MHeight = ++MHeight
 
-		      for(var i = 1; i < MHeight; i++) {
-		      for(var i2 = 1; i2 < MWidth; i2++) {
-		      var node = document.createElement("BUTTON");
-		      node.setAttribute("id", i + "-" + i2);
-		      node.setAttribute("onclick", "Lit(this)");
-		      document.getElementById("grid").appendChild(node);
-		      }
-		      var br = document.createElement("br");
-		      document.getElementById("grid").appendChild(br);
-		      }
+		    for(var i = 1; i < MHeight; i++) {
+		    for(var i2 = 1; i2 < MWidth; i2++) {
+		    var node = document.createElement("BUTTON");
+		    node.setAttribute("id", i + "-" + i2);
+		    node.setAttribute("onclick", "Lit(this)");
+		    document.getElementById("grid").appendChild(node);
+		    }
+		    var br = document.createElement("br");
+		    document.getElementById("grid").appendChild(br);
+		    }
 
-		      function Lit(ele) {
-		       var element = document.getElementById(ele.id);
-		       element.classList.toggle("lit");
-		      }
+		    function Lit(ele) {
+		     var element = document.getElementById(ele.id);
+		     element.classList.toggle("lit");
+		    }
+			
+			function Clear() {
+			var elems = document.querySelectorAll(".lit");
+			[].forEach.call(elems, function(el) {
+				el.classList.remove("lit");
+			});
+			}
 		</script>
 	</body>
 </html>
