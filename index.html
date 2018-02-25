@@ -144,6 +144,8 @@
             var r = confirm("Are you sure you want to delete all saved frames?");
             if (r == true) {
                 document.getElementById('frames').innerHTML = "Frames: 0";
+                FrameNum = 0
+                FrameArr = [0];
                 var cookies = document.cookie.split(";");
                 for (var i = 0; i < cookies.length; i++) {
                     var cookie = cookies[i];
