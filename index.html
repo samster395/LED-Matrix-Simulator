@@ -1,87 +1,234 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>
-			LED Matrix Simulator
-		</title>
-		<meta content="width=device-width, initial-scale=1" name="viewport">
-		<style>
-		      body {
-		      background-color: #2c3e50;
-		      color: white;
-		      }
-		      button {
-		        height: 25px;
-		        width: 25px;
-		        background-color: white;
-		        border-radius: 50%;
-		        display: inline-block;
-		        border-style:none;
-		        margin: 2px;
-		      }
-		      button:focus {outline:0;}
-		      .lit {
-		      background-color: #ff0000;
-		      }
-		      a:visited {
-		          color: green;
-		      }
-		      a:link {
-		          color: red;
-		      }
-		</style>
-	</head>
-	<body>
-		<div style="text-align:center">
-			<h3>
+
+<head>
+
+    <title>
+        LED Matrix Simulator
+    </title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        button {
+            height: 25px;
+            width: 25px;
+            background-color: white;
+            border-radius: 50%;
+            display: inline-block;
+            border-style: none;
+            margin: 2px;
+        }
+        
+        button:focus {
+            outline: 0;
+        }
+        
+        .lit {
+            background-color: #ff0000;
+        }
+        
+        a:visited {
+            color: green;
+        }
+        
+        a:link {
+            color: red;
+        }
+        
+        #framenumber {
+            width: 40px;
+        }
+        
+        #framespeed {
+            width: 60px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="text-align:center">
+        <h3>
 				LED Matrix Simulator
-			</h3>Click on the dots to light them - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a><br>
-			<form>
-				Width: <input id="width" name="w" size="2" type="text" value=""> Height: <input id="height" name="h" size="2" type="text" value=""> <input type="submit" value="Submit">
-			</form><br>
-			<input type="button" onclick="Clear()" value="Clear"></input>
-			<br><br>
-			<div id="grid"></div>
-		</div>
-		<script>
-		    var url_string = window.location.href; //window.location.href
-		    var url = new URL(url_string);
-		    var MWidth = url.searchParams.get("w");
-		    var MHeight = url.searchParams.get("h");
+			</h3>Click on the LEDs to light them - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a>
+        <br>
+        <form>
+            Width:
+            <input id="width" name="w" size="2" type="text" value=""> Height:
+            <input id="height" name="h" size="2" type="text" value="">
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <input type="button" onclick="Clear()" value="Clear Lit LEDs"></input>
+        <input type="button" onclick="ClearFrames()" value="Clear Saved Frames"> </input>
 
-		    if (MWidth == null){
-		    var MWidth = 17
-		    }
+        <br>
+        <br>
+        <input type="button" id="b2" onclick="FrameSave()" value="Frame Save"> </input>
+        <input type="button" onclick="FramesPlay()" value="Play Saved Frames"> </input>
+        <br>
+        <br>
+        <div id="grid"></div>
+        <br> Enter Frame:
+        <input id="framenumber" name="frame" type="number" value="">
+        <input type="button" value="Load" onclick="Clear(); FrameLoad(document.getElementById('framenumber').value)"> Animation Speed (In ms):
+        <input id="framespeed" name="frspeed" type="number" value="350">
+        <br>
+        <div id="frames"></div>
+    </div>
 
-		    if (MHeight == null){
-		    var MHeight = 7
-		    }
+    <script>
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var MWidth = url.searchParams.get("w");
+        var MHeight = url.searchParams.get("h");
 
-		    var MWidth = ++MWidth
-		    var MHeight = ++MHeight
+        if (MWidth == null) {
+            var MWidth = 17
+        }
 
-		    for(var i = 1; i < MHeight; i++) {
-		    for(var i2 = 1; i2 < MWidth; i2++) {
-		    var node = document.createElement("BUTTON");
-		    node.setAttribute("id", i + "-" + i2);
-		    node.setAttribute("onclick", "Lit(this)");
-		    document.getElementById("grid").appendChild(node);
-		    }
-		    var br = document.createElement("br");
-		    document.getElementById("grid").appendChild(br);
-		    }
+        if (MHeight == null) {
+            var MHeight = 7
+        }
 
-		    function Lit(ele) {
-		     var element = document.getElementById(ele.id);
-		     element.classList.toggle("lit");
-		    }
-			
-			function Clear() {
-			var elems = document.querySelectorAll(".lit");
-			[].forEach.call(elems, function(el) {
-				el.classList.remove("lit");
-			});
-			}
-		</script>
-	</body>
+        var MWidth = ++MWidth
+        var MHeight = ++MHeight
+
+        for (var i = 1; i < MHeight; i++) {
+            for (var i2 = 1; i2 < MWidth; i2++) {
+                var node = document.createElement("BUTTON");
+                node.setAttribute("id", i + "-" + i2);
+                node.setAttribute("onclick", "Lit(this)");
+                document.getElementById("grid").appendChild(node);
+            }
+            var br = document.createElement("br");
+            document.getElementById("grid").appendChild(br);
+        }
+
+        function Lit(ele) {
+            var className = document.getElementsByClassName('lit');
+            var element = document.getElementById(ele.id);
+            element.classList.toggle("lit");
+        }
+
+        function Clear() {
+            var elems = document.querySelectorAll(".lit");
+            [].forEach.call(elems, function(el) {
+                el.classList.remove("lit");
+            });
+        }
+
+        var FrameNum = 0
+        var FrameArr = [0];
+
+        function FrameSave() {
+
+            FrameNum++;
+            var className = document.getElementsByClassName('lit');
+            var classnameCount = className.length;
+            var IdStore = new Array();
+            for (var j = 0; j < classnameCount; j++) {
+                IdStore.push(className[j].id);
+            }
+            var json_str = JSON.stringify(IdStore);
+            setCookie('LMS_FR' + FrameNum, json_str);
+            Frame(FrameNum);
+            Frame();
+        }
+
+        function ClearFrames() {
+            var r = confirm("Are you sure you want to delete all saved frames?");
+            if (r == true) {
+                document.getElementById('frames').innerHTML = "Frames: 0";
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }
+            } else {
+
+            }
+        }
+
+        function Frame(variable) {
+            if (typeof variable !== 'undefined') {
+                FrameArr.push(variable);
+                var json_str2 = JSON.stringify(FrameArr);
+                setCookie('LMS_FRAMES', json_str2);
+            } else {
+                if (getCookie('LMS_FRAMES') == "") {
+                    document.getElementById('frames').innerHTML = "Frames: 0"
+                } else {
+                    frames = getCookie('LMS_FRAMES');
+                    document.getElementById('frames').innerHTML = "";
+                    framesp = JSON.parse(frames)
+
+                    document.getElementById('frames').innerHTML = "Frames: " + Math.max(...framesp);
+                }
+
+            }
+        }
+
+        function FramesPlay() {
+            framespeed = document.getElementById('framespeed').value
+            frames = getCookie('LMS_FRAMES');
+            framesp = JSON.parse(frames);
+            var i = 1,
+                howManyTimes = Math.max(...framesp) + 1;
+            console.log(howManyTimes)
+
+            function f() {
+                Clear();
+                LitLed = getCookie('LMS_FR' + i);
+                LitLedJS = JSON.parse(LitLed)
+                LitLedJS.forEach(function(element) {
+                    document.getElementById(element).classList.add('lit');
+                });
+                i++;
+                if (i < howManyTimes) {
+                    setTimeout(f, framespeed);
+                }
+            }
+            f();
+        }
+
+        function FrameLoad(frame) {
+            LitLed = getCookie('LMS_FR' + frame);
+            LitLedJS = JSON.parse(LitLed)
+            LitLedJS.forEach(function(element) {
+                document.getElementById(element).classList.add('lit');
+            });
+        }
+
+        function setCookie(cname, cvalue, exdays) {
+            var expires = "expires=Tue, 19 Jan 2038 03:14:07 UTC"
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;";
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        window.onload = Frame();
+    </script>
+</body>
+
 </html>
