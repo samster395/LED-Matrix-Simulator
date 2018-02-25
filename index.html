@@ -43,6 +43,10 @@
             width: 40px;
         }
         
+        #framenum {
+            width: 40px;
+        }
+        
         #framespeed {
             width: 60px;
         }
@@ -69,6 +73,8 @@
         <br>
         <br>
         <input type="button" id="b2" onclick="FrameSave()" value="Frame Save"> </input>
+        <input id="framenum" name="frame" type="number" value="">
+        <input type="button" id="b2" onclick="FrameUpdate(document.getElementById('framenum').value)" value="Frame Update"> </input>
         <input type="button" onclick="FramesPlay()" value="Play Saved Frames"> </input>
         <br>
         <br>
@@ -126,7 +132,6 @@
         var FrameArr = [0];
 
         function FrameSave() {
-
             FrameNum++;
             var className = document.getElementsByClassName('lit');
             var classnameCount = className.length;
@@ -138,6 +143,17 @@
             setCookie('LMS_FR' + FrameNum, json_str);
             Frame(FrameNum);
             Frame();
+        }
+
+        function FrameUpdate(frame) {
+            var className = document.getElementsByClassName('lit');
+            var classnameCount = className.length;
+            var IdStore = new Array();
+            for (var j = 0; j < classnameCount; j++) {
+                IdStore.push(className[j].id);
+            }
+            var json_str = JSON.stringify(IdStore);
+            setCookie('LMS_FR' + frame, json_str);
         }
 
         function ClearFrames() {
@@ -181,8 +197,7 @@
             framespeed = document.getElementById('framespeed').value
             frames = getCookie('LMS_FRAMES');
             framesp = JSON.parse(frames);
-            var i = 1,
-            howManyTimes = Math.max(...framesp) + 1;
+            var i = 1, howManyTimes = Math.max(...framesp) + 1;
 
             function f() {
                 Clear();
