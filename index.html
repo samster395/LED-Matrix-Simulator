@@ -140,7 +140,7 @@
                 IdStore.push(className[j].id);
             }
             var json_str = JSON.stringify(IdStore);
-            setCookie('LMS_FR' + FrameNum, json_str);
+            localStorage.setItem('LMS_FR' + FrameNum, json_str);
             Frame(FrameNum);
             Frame();
         }
@@ -153,7 +153,7 @@
                 IdStore.push(className[j].id);
             }
             var json_str = JSON.stringify(IdStore);
-            setCookie('LMS_FR' + frame, json_str);
+            localStorage.setItem('LMS_FR' + frame, json_str);
         }
 
         function ClearFrames() {
@@ -162,13 +162,7 @@
                 document.getElementById('frames').innerHTML = "Frames: 0";
                 FrameNum = 0
                 FrameArr = [0];
-                var cookies = document.cookie.split(";");
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i];
-                    var eqPos = cookie.indexOf("=");
-                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-                }
+                localStorage.clear();
             } else {
 
             }
@@ -178,15 +172,14 @@
             if (typeof variable !== 'undefined') {
                 FrameArr.push(variable);
                 var json_str2 = JSON.stringify(FrameArr);
-                setCookie('LMS_FRAMES', json_str2);
+                localStorage.setItem('LMS_FRAMES', json_str2);
             } else {
-                if (getCookie('LMS_FRAMES') == "") {
+                if (localStorage.getItem('LMS_FRAMES') === null) {
                     document.getElementById('frames').innerHTML = "Frames: 0"
                 } else {
-                    frames = getCookie('LMS_FRAMES');
+                    frames = localStorage.getItem('LMS_FRAMES');
                     document.getElementById('frames').innerHTML = "";
                     framesp = JSON.parse(frames)
-
                     document.getElementById('frames').innerHTML = "Frames: " + Math.max(...framesp);
                 }
 
@@ -195,52 +188,35 @@
 
         function FramesPlay() {
             framespeed = document.getElementById('framespeed').value
-            frames = getCookie('LMS_FRAMES');
-            framesp = JSON.parse(frames);
-            var i = 1, howManyTimes = Math.max(...framesp) + 1;
+            if (localStorage.getItem('LMS_FRAMES') === null) {
 
-            function f() {
-                Clear();
-                LitLed = getCookie('LMS_FR' + i);
-                LitLedJS = JSON.parse(LitLed)
-                LitLedJS.forEach(function(element) {
-                    document.getElementById(element).classList.add('lit');
-                });
-                i++;
-                if (i < howManyTimes) {
-                    setTimeout(f, framespeed);
+            } else {
+                frames = localStorage.getItem('LMS_FRAMES');
+                framesp = JSON.parse(frames);
+                var i = 1, howManyTimes = Math.max(...framesp) + 1;
+
+                function f() {
+                    Clear();
+                    LitLed = localStorage.getItem('LMS_FR' + i);
+                    LitLedJS = JSON.parse(LitLed)
+                    LitLedJS.forEach(function(element) {
+                        document.getElementById(element).classList.add('lit');
+                    });
+                    i++;
+                    if (i < howManyTimes) {
+                        setTimeout(f, framespeed);
+                    }
                 }
+                f();
             }
-            f();
         }
 
         function FrameLoad(frame) {
-            LitLed = getCookie('LMS_FR' + frame);
+            LitLed = localStorage.getItem('LMS_FR' + frame);
             LitLedJS = JSON.parse(LitLed)
             LitLedJS.forEach(function(element) {
                 document.getElementById(element).classList.add('lit');
             });
-        }
-
-        function setCookie(cname, cvalue, exdays) {
-            var expires = "expires=Tue, 19 Jan 2038 03:14:07 UTC"
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;";
-        }
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
         }
 
         window.onload = Frame();
