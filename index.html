@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>
         LED Matrix Simulator
     </title>
@@ -108,18 +107,17 @@
             for (var i2 = 1; i2 < MWidth; i2++) {
                 var node = document.createElement("BUTTON");
                 node.setAttribute("id", i + "-" + i2);
-                node.setAttribute("onclick", "Lit(this)");
                 document.getElementById("grid").appendChild(node);
             }
             var br = document.createElement("br");
             document.getElementById("grid").appendChild(br);
         }
 
-        function Lit(ele) {
-            var className = document.getElementsByClassName('lit');
-            var element = document.getElementById(ele.id);
-            element.classList.toggle("lit");
-        }
+        $("button").on("mousedown mouseover", function(e) {
+            if (e.buttons == 1 || e.buttons == 3) {
+                $(this).toggleClass("lit")
+            }
+        })
 
         function Clear() {
             var elems = document.querySelectorAll(".lit");
