@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>
@@ -66,22 +67,24 @@
             <input type="submit" value="Submit">
         </form>
         <br>
-        <input type="button" onclick="Clear()" value="Clear Lit LEDs"></input>
+        <input type="button" onclick="Clear()" value="Clear Lit LEDs"></input> |
         <input type="button" onclick="ClearFrames()" value="Clear Saved Frames"> </input>
 
         <br>
         <br>
-        <input type="button" id="b2" onclick="FrameSave()" value="Frame Save"> </input>
+        <input type="button" id="b2" onclick="FrameSave()" value="Frame Save"> </input> |
         <input id="framenum" name="frame" type="number" value="">
-        <input type="button" id="b2" onclick="FrameUpdate(document.getElementById('framenum').value)" value="Frame Update"> </input>
-        <input type="button" onclick="FramesPlay()" value="Play Saved Frames"> </input>
+        <input type="button" id="b2" onclick="FrameUpdate(document.getElementById('framenum').value)" value="Frame Update"> </input> |
+        <input type="button" onclick="FramesPlay()" value="Play Saved Frames"> </input> |
+        <input type="button" onclick="FramesStop()" value="Stop Playing"> </input>
         <br>
         <br>
         <div id="grid"></div>
         <br> Enter Frame:
         <input id="framenumber" name="frame" type="number" value="">
         <input type="button" value="Load" onclick="Clear(); FrameLoad(document.getElementById('framenumber').value)"> Animation Speed (In ms):
-        <input id="framespeed" name="frspeed" type="number" value="350">
+        <input id="framespeed" name="frspeed" type="number" value="350"> Loop:
+        <input type="checkbox" id="floop" checked>
         <br>
         <div id="frames"></div>
     </div>
@@ -184,8 +187,12 @@
             }
         }
 
+        var FTimeout;
+        var FTimeout2;
+
         function FramesPlay() {
-            framespeed = document.getElementById('framespeed').value
+            framespeed = document.getElementById('framespeed').value;
+            floop = document.getElementById("floop");
             if (localStorage.getItem('LMS_FRAMES') === null) {
 
             } else {
@@ -202,11 +209,20 @@
                     });
                     i++;
                     if (i < howManyTimes) {
-                        setTimeout(f, framespeed);
+                        FTimeout = setTimeout(f, framespeed);
                     }
                 }
                 f();
+
+                if (floop.checked) {
+                    FTimeout2 = setTimeout(FramesPlay, 2000);
+                }
             }
+        }
+
+        function FramesStop() {
+            clearTimeout(FTimeout);
+            clearTimeout(FTimeout2);
         }
 
         function FrameLoad(frame) {
