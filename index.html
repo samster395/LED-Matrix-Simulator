@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>
         LED Matrix Simulator
@@ -50,6 +52,14 @@
         #framespeed {
             width: 60px;
         }
+        
+        #wh {
+            margin-top: 10px;
+        }
+        
+        #frames {
+            margin-top: 5px;
+        }
     </style>
 
 </head>
@@ -60,7 +70,7 @@
 				LED Matrix Simulator
 			</h3>Click or click and drag across the LEDs to light them (Dragging wont work on mobile) - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a>
         <br>
-        <form>
+        <form id="wh">
             Width:
             <input id="width" name="w" size="2" type="text" value=""> Height:
             <input id="height" name="h" size="2" type="text" value="">
