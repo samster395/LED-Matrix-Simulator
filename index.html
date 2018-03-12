@@ -4,7 +4,6 @@
 <head>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>
         LED Matrix Simulator
     </title>
@@ -68,7 +67,7 @@
     <div style="text-align:center">
         <h3>
 				LED Matrix Simulator
-			</h3>Click or click and drag across the LEDs to light them (Dragging wont work on mobile) - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a>
+			</h3>Click the LEDs to light them - <a href="https://github.com/ToXIcGaming/LED-Matrix-Simulator" target="_blank">Fork on Github</a>
         <br>
         <form id="wh">
             Width:
@@ -120,17 +119,18 @@
             for (var i2 = 1; i2 < MWidth; i2++) {
                 var node = document.createElement("BUTTON");
                 node.setAttribute("id", i + "-" + i2);
+				node.setAttribute("onclick", "Lit(this)");
                 document.getElementById("grid").appendChild(node);
             }
             var br = document.createElement("br");
             document.getElementById("grid").appendChild(br);
         }
 
-        $("button").on("mousedown mouseover", function(e) {
-            if (e.buttons == 1 || e.buttons == 3) {
-                $(this).toggleClass("lit")
-            }
-        })
+        function Lit(ele) {    
+            var className = document.getElementsByClassName('lit');  
+            var element = document.getElementById(ele.id);
+            element.classList.toggle("lit");
+        }
 
         function Clear() {
             var elems = document.querySelectorAll(".lit");
